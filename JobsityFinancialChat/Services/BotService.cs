@@ -33,7 +33,7 @@ namespace JobsityFinancialChat.Services
                 if (message.ToLower().StartsWith("/stock="))
                 {
                     string code = message.Replace("/stock=", "");
-                    using (HttpResponseMessage response = new HttpClient().GetAsync($"https://localhost:44322/Api/Bot/Stock?code=" + code).Result)
+                    using (HttpResponseMessage response = new HttpClient().GetAsync($"https://localhost:44322/Api/Stooq/Stock?code=" + code).Result)
                     {
 
                         if (response.StatusCode != HttpStatusCode.OK)

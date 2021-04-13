@@ -11,26 +11,10 @@ using System.Web.Http;
 
 namespace JobsityFinancialChat.Controllers
 {
-    public class BotController : ApiController
+    public class StooqController : ApiController
     {
-        public BotController()
+        public StooqController()
         {
-        }
-
-
-        //
-        // GET: /Bot/
-        public String Index()
-        {
-            return "Hello World Index";
-        }
-
-
-        //
-        // GET: /Bot/Hello
-        public String Hello()
-        {
-            return "Hello World";
         }
 
         [HttpGet]
