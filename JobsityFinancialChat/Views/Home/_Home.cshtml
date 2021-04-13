@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Simple Chat</title>
+    <style type="text/css">
+        .container .chat {
+            background-color: #91a5cb;
+            border: thick solid #000000;
+            padding: 2em;
+            margin: 2em;
+        }
+        #discussion {
+            margin-top: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container chat">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion">
+        </ul>
+    </div>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var chat = $.connection.signalRChat;
+            chat.client.broadcastMessage = function (name, message,timestamp) {
+                var encodedName = $('<div />').text("(" + timestamp + ") " + name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            };
+            $('#message').focus();
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    chat.server.send('@User.Identity.GetUserId()', $('#message').val());
+                    $('#message').val('').focus();
+                });
+            });
+        });
+
+        var inputMessage = document.getElementById("message");
+
+        inputMessage.addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                event.preventDefault();
+                document.getElementById("sendmessage").click();
+            }
+        });
+
+    </script>
+</body>
+</html>
